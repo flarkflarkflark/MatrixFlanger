@@ -1,0 +1,22 @@
+# LV2 Manifest for flark's MatrixFilter
+# This file describes the plugin(s) and UI(s) provided by this bundle
+
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
+@prefix ui:   <http://lv2plug.in/ns/extensions/ui#> .
+@prefix atom: <http://lv2plug.in/ns/ext/atom#> .
+@prefix urid: <http://lv2plug.in/ns/ext/urid#> .
+@prefix pset: <http://lv2plug.in/ns/ext/presets#> .
+@prefix eg:   <http://example.org/> .
+
+# Plugin entry
+<http://flark.dev/matrixfilter>
+    a lv2:Plugin ;
+    lv2:binary <flark-matrixfilter.so> ;
+    rdfs:seeAlso <flark-matrixfilter.ttl> .
+
+# UI entry
+<http://flark.dev/matrixfilter_ui>
+    a ui:X11UI ;
+    ui:binary <flark-matrixfilter-ui.so> ;
+    lv2:plugin <http://flark.dev/matrixfilter> ;
+    rdfs:seeAlso <flark-matrixfilter-ui.ttl> .

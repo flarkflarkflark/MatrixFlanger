@@ -1,0 +1,89 @@
+# LV2 UI Description for flark's MatrixFilter
+# Defines the graphical user interface for the plugin
+
+@prefix ui:   <http://lv2plug.in/ns/extensions/ui#> .
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
+@prefix atom: <http://lv2plug.in/ns/ext/atom#> .
+@prefix urid: <http://lv2plug.in/ns/ext/urid#> .
+@prefix opts: <http://lv2plug.in/ns/ext/options#> .
+@prefix slv2: <http://showig.net/lv2/> .
+
+<http://flark.dev/matrixfilter_ui>
+    a ui:X11UI ;
+    
+    # UI information
+    rdfs:label "flark's MatrixFilter GUI" ;
+    rdfs:comment "Real-time matrix visualization with audio-responsive effects" ;
+    
+    # Associated plugin
+    lv2:plugin <http://flark.dev/matrixfilter> ;
+    
+    # UI Properties
+    ui:hasProperties "fixed-size scalable auto-scale" ;
+    ui:minimumWidth 600 ;
+    ui:minimumHeight 400 ;
+    ui:preferredWidth 800 ;
+    ui:preferredHeight 600 ;
+    
+    # Required features for UI
+    ui:requiredFeature <http://lv2plug.in/ns/ext/urid#map> ;
+    ui:requiredFeature <http://lv2plug.in/ns/ext/options#options> ;
+    ui:requiredFeature <http://lv2plug.in/ns/extensions/ui#foreground> ;
+    ui:requiredFeature <http://lv2plug.in/ns/extensions/ui#background> ;
+    
+    # Optional features
+    ui:optionalFeature ui:queueControl ;
+    ui:optionalFeature ui:showDisplay ;
+    ui:optionalFeature ui:customFont ;
+    ui:optionalFeature ui:portWrite ;
+    
+    # UI Port bindings
+    ui:port [
+        ui:plugin <http://flark.dev/matrixfilter> ;
+        ui:port "audio_in" ;
+        ui:symbol "audio_input" ;
+        ui:name "Audio Input Visualization"
+    ] ;
+    
+    ui:port [
+        ui:plugin <http://flark.dev/matrixfilter> ;
+        ui:port "cutoff" ;
+        ui:symbol "cutoff_control" ;
+        ui:name "Cutoff Frequency"
+    ] ;
+    
+    ui:port [
+        ui:plugin <http://flark.dev/matrixfilter> ;
+        ui:port "resonance" ;
+        ui:symbol "resonance_control" ;
+        ui:name "Resonance"
+    ] ;
+    
+    ui:port [
+        ui:plugin <http://flark.dev/matrixfilter> ;
+        ui:port "gain" ;
+        ui:symbol "gain_control" ;
+        ui:name "Gain"
+    ] ;
+    
+    ui:port [
+        ui:plugin <http://flark.dev/matrixfilter> ;
+        ui:port "filter_type" ;
+        ui:symbol "filter_type_control" ;
+        ui:name "Filter Type"
+    ] ;
+    
+    ui:port [
+        ui:plugin <http://flark.dev/matrixfilter> ;
+        ui:port "enabled" ;
+        ui:symbol "enabled_control" ;
+        ui:name "Enabled"
+    ] ;
+    
+    # Plugin-specific properties for matrix visualization
+    <http://flark.dev/matrixfilter> ui:hasProperties "matrix-visualization real-time-effects open-gl" ;
+    
+    # Display preferences
+    ui:color "#00FF00" ;        # Matrix green
+    ui:backgroundColor "#000000" ;  # Matrix black
+    ui:textColor "#00FF00" .   # Matrix green text

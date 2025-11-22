@@ -1,0 +1,213 @@
+# LV2 Plugin Description for flark's MatrixFilter
+# Complete plugin definition with parameters and features
+
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
+@prefix atom: <http://lv2plug.in/ns/ext/atom#> .
+@prefix urid: <http://lv2plug.in/ns/ext/urid#> .
+@prefix midi: <http://lv2plug.in/ns/ext/midi#> .
+@prefix time: <http://lv2plug.in/ns/ext/time#> .
+@prefix pset: <http://lv2plug.in/ns/ext/presets#> .
+@prefix opts: <http://lv2plug.in/ns/ext/options#> .
+@prefix eg:   <http://example.org/> .
+
+<http://flark.dev/matrixfilter>
+    a lv2:Plugin ;
+    lv2:project <http://flark.dev/> ;
+    lv2:auid eg:matrixfilter ;
+    lv2:binary <flark-matrixfilter.so> ;
+    
+    # Plugin information
+    rdfs:label "flark's MatrixFilter" ;
+    rdfs:comment "A professional audio filter plugin with real-time matrix-style visual effects" ;
+    doap:name "flark's MatrixFilter" ;
+    doap:homepage <https://flark.dev/matrixfilter> ;
+    doap:logo <https://flark.dev/logo.png> ;
+    doap:license <http://opensource.org/licenses/MIT> ;
+    doap:maintainer [
+        a foaf:Person ;
+        foaf:name "flark" ;
+        foaf:homepage <https://flark.dev/> ;
+        foaf:mbox <mailto:contact@flark.dev>
+    ] ;
+    
+    # Audio ports
+    lv2:port [
+        a lv2:InputPort , lv2:AudioPort ;
+        lv2:index 0 ;
+        lv2:symbol "audio_in" ;
+        lv2:name "Audio Input" ;
+        lv2:designation lv2:left ;
+        lv2:channelCount 1 ;
+    ] ;
+    
+    lv2:port [
+        a lv2:InputPort , lv2:AudioPort ;
+        lv2:index 1 ;
+        lv2:symbol "audio_in_right" ;
+        lv2:name "Audio Input Right" ;
+        lv2:designation lv2:right ;
+        lv2:channelCount 1 ;
+    ] ;
+    
+    lv2:port [
+        a lv2:OutputPort , lv2:AudioPort ;
+        lv2:index 2 ;
+        lv2:symbol "audio_out" ;
+        lv2:name "Audio Output" ;
+        lv2:designation lv2:left ;
+        lv2:channelCount 1 ;
+    ] ;
+    
+    lv2:port [
+        a lv2:OutputPort , lv2:AudioPort ;
+        lv2:index 3 ;
+        lv2:symbol "audio_out_right" ;
+        lv2:name "Audio Output Right" ;
+        lv2:designation lv2:right ;
+        lv2:channelCount 1 ;
+    ] ;
+    
+    # Control ports (parameters)
+    lv2:port [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 4 ;
+        lv2:symbol "cutoff" ;
+        lv2:name "Cutoff Frequency" ;
+        lv2:unit <http://lv2plug.in/ns/extensions/units#hertz> ;
+        lv2:minimum 20.0 ;
+        lv2:maximum 20000.0 ;
+        lv2:default 1000.0 ;
+        lv2:scalePoint [
+            rdfs:label "Low" ;
+            lv2:value 100.0
+        ] , [
+            rdfs:label "Mid" ;
+            lv2:value 1000.0
+        ] , [
+            rdfs:label "High" ;
+            lv2:value 10000.0
+        ] ;
+    ] ;
+    
+    lv2:port [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 5 ;
+        lv2:symbol "resonance" ;
+        lv2:name "Resonance" ;
+        lv2:unit <http://lv2plug.in/ns/extensions/units#none> ;
+        lv2:minimum 0.1 ;
+        lv2:maximum 10.0 ;
+        lv2:default 1.0 ;
+        lv2:scalePoint [
+            rdfs:label "None" ;
+            lv2:value 0.5
+        ] , [
+            rdfs:label "Medium" ;
+            lv2:value 1.0
+        ] , [
+            rdfs:label "High" ;
+            lv2:value 5.0
+        ] , [
+            rdfs:label "Extreme" ;
+            lv2:value 10.0
+        ] ;
+    ] ;
+    
+    lv2:port [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 6 ;
+        lv2:symbol "gain" ;
+        lv2:name "Gain" ;
+        lv2:unit <http://lv2plug.in/ns/extensions/units#decibel> ;
+        lv2:minimum -60.0 ;
+        lv2:maximum 60.0 ;
+        lv2:default 0.0 ;
+        lv2:scalePoint [
+            rdfs:label "Mute" ;
+            lv2:value -60.0
+        ] , [
+            rdfs:label "Unity" ;
+            lv2:value 0.0
+        ] , [
+            rdfs:label "Boost" ;
+            lv2:value 12.0
+        ] , [
+            rdfs:label "Max" ;
+            lv2:value 60.0
+        ] ;
+    ] ;
+    
+    lv2:port [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 7 ;
+        lv2:symbol "filter_type" ;
+        lv2:name "Filter Type" ;
+        lv2:unit <http://lv2plug.in/ns/extensions/units#none> ;
+        lv2:minimum 0.0 ;
+        lv2:maximum 6.0 ;
+        lv2:default 0.0 ;
+        lv2:scalePoint [
+            rdfs:label "Low-Pass" ;
+            lv2:value 0.0
+        ] , [
+            rdfs:label "High-Pass" ;
+            lv2:value 1.0
+        ] , [
+            rdfs:label "Band-Pass" ;
+            lv2:value 2.0
+        ] , [
+            rdfs:label "Notch" ;
+            lv2:value 3.0
+        ] , [
+            rdfs:label "Peaking" ;
+            lv2:value 4.0
+        ] , [
+            rdfs:label "Low Shelf" ;
+            lv2:value 5.0
+        ] , [
+            rdfs:label "High Shelf" ;
+            lv2:value 6.0
+        ] ;
+    ] ;
+    
+    lv2:port [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 8 ;
+        lv2:symbol "enabled" ;
+        lv2:name "Enabled" ;
+        lv2:unit <http://lv2plug.in/ns/extensions/units#none> ;
+        lv2:minimum 0.0 ;
+        lv2:maximum 1.0 ;
+        lv2:default 1.0 ;
+        lv2:scalePoint [
+            rdfs:label "Off" ;
+            lv2:value 0.0
+        ] , [
+            rdfs:label "On" ;
+            lv2:value 1.0
+        ] ;
+    ] ;
+    
+    # Required features
+    lv2:requiredFeature <http://lv2plug.in/ns/ext/instance-access> ;
+    lv2:requiredFeature <http://lv2plug.in/ns/ext/state> ;
+    lv2:requiredFeature <http://lv2plug.in/ns/ext/buf-size#boundedBlockLength> ;
+    lv2:requiredFeature <http://lv2plug.in/ns/ext/options#options> ;
+    
+    # Optional features
+    lv2:optionalFeature lv2:inPlaceProcessing ;
+    lv2:optionalFeature lv2:hardRTCapable ;
+    lv2:optionalFeature <http://lv2plug.in/ns/ext/state#loadDefaultState> ;
+    lv2:optionalFeature <http://lv2plug.in/ns/ext/parameters#supportsPartialBag> ;
+    lv2:optionalFeature <http://lv2plug.in/ns/ext/midi#MidiEvent> ;
+    lv2:optionalFeature <http://lv2plug.in/ns/ext/time#Position> ;
+    lv2:optionalFeature <http://lv2plug.in/ns/ext/atom#supports> ;
+    
+    # Extensions
+    lv2:extensionData <http://lv2plug.in/ns/ext/state#interface> ;
+    lv2:extensionData <http://lv2plug.in/ns/ext/parameters#interface> ;
+    lv2:extensionData <http://lv2plug.in/ns/ext/presets#interface> ;
+    
+    # Properties
+    lv2:property <http://lv2plug.in/ns/ext/parameters#sampleRate> ;
+    lv2:property <http://lv2plug.in/ns/ext/time#time> .

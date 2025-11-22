@@ -1,0 +1,19 @@
+# Matrix Filter Plugin Bundle
+# Cross-platform CLAP plugin for flark's MatrixFilter
+# Version: 1.0.0
+# Format: CLAP
+
+This directory contains the compiled CLAP plugin for flark's MatrixFilter.
+
+To install:
+1. Copy 'flark-matrixfilter.clap' to your CLAP plugin directory
+2. Load in any CLAP-compatible DAW
+3. Enjoy professional audio filtering with matrix visualization!
+
+Features:
+- 7 professional filter types
+- Real-time matrix effects
+- Audio-responsive visualization
+- Zero-latency processing
+
+For more information, visit: https://flark.dev/matrixfilter

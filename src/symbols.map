@@ -1,0 +1,7 @@
+# Linux symbol exports
+{
+    global:
+        clap_entry;
+    local:
+        *;
+};
