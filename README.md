@@ -33,9 +33,8 @@ chmod +x build-macos.sh && ./build-macos.sh
 
 ### 📚 **Complete Documentation**
 
-- **[README-SUITE.md](README-SUITE.md)** - Complete plugin suite documentation
+- **[BUILD.md](BUILD.md)** - Comprehensive build guide for source releases
 - **[FORMATS.md](FORMATS.md)** - Plugin format comparison and selection guide
-- **[QUICKSTART.md](QUICKSTART.md)** - 5-minute setup guide
 
 ### ✨ **Key Features**
 
@@ -84,15 +83,15 @@ chmod +x build-macos.sh && ./build-macos.sh
 
 ```
 flark-matrixfilter/
-├── 📄 README-SUITE.md      # Complete suite documentation
-├── 📄 FORMATS.md          # Format comparison guide
-├── 📄 QUICKSTART.md       # 5-minute setup guide
-├── 📄 build-all.sh        # Universal build script
-├── 📄 build-vst3.sh       # VST3 build script
-├── 📄 build-lv2.sh        # LV2 build script
-├── 📄 build-linux.sh      # Linux build script
-├── 📄 build-windows.bat   # Windows build script
-├── 📄 build-macos.sh      # macOS build script
+├── 📄 README.md          # Main documentation
+├── 📄 BUILD.md           # Build guide
+├── 📄 FORMATS.md         # Format comparison guide
+├── 📄 build-all.sh       # Universal build script
+├── 📄 build-vst3.sh      # VST3 build script
+├── 📄 build-lv2.sh       # LV2 build script
+├── 📄 build-linux.sh     # Linux build script
+├── 📄 build-windows.bat  # Windows build script
+├── 📄 build-macos.sh     # macOS build script
 ├── 📁 vst3/              # VST3 format implementation
 ├── 📁 lv2/               # LV2 format implementation
 ├── 📁 src/               # Shared DSP and GUI code
@@ -225,9 +224,8 @@ chmod +x build-all.sh
 ```
 
 Or jump to specific documentation:
-- **[Complete Suite Guide](README-SUITE.md)** - Everything you need to know
-- **[Format Comparison](FORMATS.md)** - Choose your optimal format  
-- **[Quick Start Guide](QUICKSTART.md)** - Get running in 5 minutes
+- **[Build Guide](BUILD.md)** - Complete build instructions
+- **[Format Comparison](FORMATS.md)** - Choose your optimal format
 
 ---
 

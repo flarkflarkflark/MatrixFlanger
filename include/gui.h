@@ -1,7 +1,5 @@
 #pragma once
 
-#include <clap/clap.h>
-#include <clap/ext/gui.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -53,12 +51,12 @@ typedef struct {
     pthread_mutex_t mutex;
     bool running;
     
-    // Plugin reference
-    const clap_plugin_t *plugin;
+    // Plugin reference (generic pointer for plugin-specific data)
+    void *plugin;
 } gui_context_t;
 
 // Function declarations
-bool gui_create(gui_context_t *gui, const clap_plugin_t *plugin, uint32_t width, uint32_t height);
+bool gui_create(gui_context_t *gui, void *plugin, uint32_t width, uint32_t height);
 void gui_destroy(gui_context_t *gui);
 void gui_update(gui_context_t *gui, const float *audio_buffer, uint32_t frames, double sample_rate);
 void gui_render(gui_context_t *gui);

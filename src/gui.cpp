@@ -445,7 +445,7 @@ static void draw_audio_activity_indicator(gui_context_t *gui) {
 }
 
 // GUI creation
-bool gui_create(gui_context_t *gui, const clap_plugin_t *plugin, uint32_t width, uint32_t height) {
+bool gui_create(gui_context_t *gui, void *plugin, uint32_t width, uint32_t height) {
     memset(gui, 0, sizeof(gui_context_t));
     
     gui->width = width;

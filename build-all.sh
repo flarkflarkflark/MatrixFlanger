@@ -177,9 +177,8 @@ echo ""
 
 echo "📚 Documentation:"
 echo "   README.md         - Complete plugin documentation"
-echo "   QUICKSTART.md     - 5-minute setup guide"
+echo "   BUILD.md          - Comprehensive build guide"
 echo "   FORMATS.md        - Format comparison and selection"
-echo "   INSTALLATION.md   - Platform-specific installation"
 echo ""
 
 echo "🎵 flark's MatrixFilter Plugin Suite"

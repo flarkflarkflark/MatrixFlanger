@@ -5,7 +5,6 @@ build/
 *.dylib
 *.dll
 *.a
-*.clap
 *.vst3
 *.lv2
 
