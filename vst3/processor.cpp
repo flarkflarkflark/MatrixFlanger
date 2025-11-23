@@ -1,6 +1,6 @@
 /*
  * VST3 Audio Processor
- * flark's MatrixFilter - VST3 Version
+ * flark's MatrixFlanger - VST3 Version
  */
 
 #include "public.sdk/source/vst/vstaudioprocessor.h"
@@ -14,9 +14,9 @@
 using namespace Steinberg;
 using namespace Steinberg::Vst;
 
-class MatrixFilterProcessor : public AudioProcessor, public IAudioProcessor {
+class MatrixFlangerProcessor : public AudioProcessor, public IAudioProcessor {
 public:
-    MatrixFilterProcessor() : AudioProcessor() {
+    MatrixFlangerProcessor() : AudioProcessor() {
         // Add audio input
         AudioBusInfo inputInfo;
         inputInfo.mediaType = MediaTypes::kAudio;

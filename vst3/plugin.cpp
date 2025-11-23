@@ -1,6 +1,6 @@
 /*
  * VST3 Plugin Entry Point
- * flark's MatrixFilter - VST3 Version
+ * flark's MatrixFlanger VST - VST3 Version
  */
 
 #include "pluginterfaces/base/funknown.h"
@@ -16,12 +16,12 @@
 
 // Plugin UID - Generate unique ID for the plugin
 static const char* kVendorName = "flark";
-static const char* kPluginName = "flark-MatrixFilter";
-static const char* kProductName = "flark's Matrix Filter";
+static const char* kPluginName = "flark-MatrixFlanger";
+static const char* kProductName = "flark's MatrixFlanger VST";
 static const char* kVendorVersion = "1.0.0";
 
 // VST3 unique class ID (128-bit)
-static const uint128_t kPluginCID = Steinberg::FUID::fromString("FLARK-MATRIX-FILTER-VST3-001");
+static const uint128_t kPluginCID = Steinberg::FUID::fromString("FLARK-MATRIX-FLANGER-VST3-001");
 
 // Parameter IDs
 enum ParameterID {
@@ -33,9 +33,9 @@ enum ParameterID {
 };
 
 // Processor class - handles audio processing
-class MatrixFilterProcessor : public Steinberg::Vst::AudioProcessor {
+class MatrixFlangerProcessor : public Steinberg::Vst::AudioProcessor {
 public:
-    MatrixFilterProcessor() {
+    MatrixFlangerProcessor() {
         setInitialDelay(0);
         
         // Add audio input
@@ -75,7 +75,7 @@ public:
         buffer_size = 0;
     }
     
-    ~MatrixFilterProcessor() override {
+    ~MatrixFlangerProcessor() override {
         if (audio_buffer) {
             free(audio_buffer);
             audio_buffer = nullptr;
@@ -289,11 +289,11 @@ protected:
 };
 
 // Factory class for creating plugin instances
-class MatrixFilterFactory : public Steinberg::FUnknown {
+class MatrixFlangerFactory : public Steinberg::FUnknown {
 public:
     Steinberg::tresult PLUGIN_API createInstance(Steinberg::FUID classID, Steinberg::FUID interfaceID, void** obj) override {
         if (classID == Steinberg::Vst::IComponentUIDs::kProcessorClass) {
-            *obj = new MatrixFilterProcessor();
+            *obj = new MatrixFlangerProcessor();
             return Steinberg::kResultOk;
         }
         return Steinberg::kNoInterface;
@@ -302,7 +302,7 @@ public:
 
 // Plugin entry point
 Steinberg::FUnknown* createInstance(Steinberg::FUID classID, Steinberg::FUID interfaceID) {
-    static MatrixFilterFactory factory;
+    static MatrixFlangerFactory factory;
     if (classID == kPluginCID || interfaceID == Steinberg::Vst::IComponentUIDs::kProcessorClass) {
         return &factory;
     }
