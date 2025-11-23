@@ -1,6 +1,6 @@
 /*
  * VST3 Plugin Entry Point and Factory
- * flark's MatrixFilter - VST3 Version
+ * flark's MatrixFlanger - VST3 Version
  */
 
 #include "public.sdk/source/vst/vstinit.h"
@@ -19,7 +19,7 @@ static const Steinberg::FUID EditorCID(0x454449544F, 0x5241444952, 0x5846494C54,
 
 // Vendor and Product Information
 static const char* kVendorName = "flark";
-static const char* kProductName = "flark-MatrixFilter";
+static const char* kProductName = "flark-MatrixFlanger";
 static const char* kProductVersion = "1.0.0";
 static const char* kVendorVersion = "1.0.0";
 
@@ -28,9 +28,9 @@ static const Steinberg::Vst::SpeakerArrangement kInput = Steinberg::Vst::kStereo
 static const Steinberg::Vst::SpeakerArrangement kOutput = Steinberg::Vst::kStereo;
 
 // Plugin Information
-class MatrixFilterComponent : public Steinberg::Vst::AudioComponent {
+class MatrixFlangerComponent : public Steinberg::Vst::AudioComponent {
 public:
-    MatrixFilterComponent() : AudioComponent() {
+    MatrixFlangerComponent() : AudioComponent() {
         // Set plugin information
         setClassID(PluginCID);
         setName(String(kProductName));
@@ -42,7 +42,7 @@ public:
         addAudioOutput(String("Audio Output"), kOutput, Steinberg::Vst::kMain, 1);
         
         // Add editor component
-        addComponent(new MatrixFilterEditor);
+        addComponent(new MatrixFlangerEditor);
     }
 
     Steinberg::tresult PLUGIN_API initialize(Steinberg::FUnknown* context) override {
@@ -101,10 +101,10 @@ public:
 
 private:
     // Internal editor component class
-    class MatrixFilterEditor : public Steinberg::Vst::EditorView {
+    class MatrixFlangerEditor : public Steinberg::Vst::EditorView {
     public:
-        MatrixFilterEditor() : EditorView() {
-            setEditor(new MatrixFilterEditController);
+        MatrixFlangerEditor() : EditorView() {
+            setEditor(new MatrixFlangerEditController);
         }
         
         Steinberg::tresult PLUGIN_API open(void* parent, const char* type) override {
@@ -138,17 +138,17 @@ private:
 };
 
 // Plugin Factory - creates plugin instances
-class MatrixFilterFactory : public Steinberg::FUnknown {
+class MatrixFlangerFactory : public Steinberg::FUnknown {
 public:
     Steinberg::tresult PLUGIN_API createInstance(Steinberg::FUID classID, Steinberg::FUID interfaceID, void** obj) override {
         if (classID == PluginCID) {
             if (interfaceID == Steinberg::Vst::IComponent::iid) {
-                *obj = new MatrixFilterComponent();
+                *obj = new MatrixFlangerComponent();
                 return Steinberg::kResultOk;
             }
         } else if (classID == EditorCID) {
             if (interfaceID == Steinberg::Vst::IEditController::iid) {
-                *obj = new MatrixFilterEditController();
+                *obj = new MatrixFlangerEditController();
                 return Steinberg::kResultOk;
             }
         }
@@ -159,7 +159,7 @@ public:
 // Plugin entry point
 extern "C" {
     Steinberg::FUnknown* createInstance(Steinberg::FUID classID, Steinberg::FUID interfaceID) {
-        static MatrixFilterFactory factory;
+        static MatrixFlangerFactory factory;
         
         if (classID == PluginCID || interfaceID == Steinberg::Vst::IComponent::iid) {
             return &factory;

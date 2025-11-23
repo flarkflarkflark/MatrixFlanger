@@ -1,6 +1,6 @@
 /*
  * VST3 Edit Controller with GUI
- * flark's MatrixFilter - VST3 Version
+ * flark's MatrixFlanger - VST3 Version
  */
 
 #include "public.sdk/source/vst/vstguieditor.h"
@@ -13,15 +13,15 @@
 using namespace Steinberg;
 using namespace Steinberg::Vst;
 
-class MatrixFilterGUI : public CView {
+class MatrixFlangerGUI : public CView {
 public:
-    MatrixFilterGUI(const CRect& size, const CColor& color) 
+    MatrixFlangerGUI(const CRect& size, const CColor& color) 
         : CView(size), backgroundColor(color) {
         // Initialize OpenGL context
         initOpenGL();
     }
     
-    ~MatrixFilterGUI() override {
+    ~MatrixFlangerGUI() override {
         cleanupOpenGL();
     }
     
@@ -135,9 +135,9 @@ private:
     }
 };
 
-class MatrixFilterEditController : public EditController, public IPlugView {
+class MatrixFlangerEditController : public EditController, public IPlugView {
 public:
-    MatrixFilterEditController() : EditController(), pluginView(nullptr) {
+    MatrixFlangerEditController() : EditController(), pluginView(nullptr) {
         // Add parameters for GUI control
         parameters.addParameter(new Parameter("Cutoff Frequency", "Hz", 0, 20000, 1000, ParameterFlags::kCanAutomate));
         parameters.addParameter(new Parameter("Resonance", "", 0.1, 10.0, 1.0, ParameterFlags::kCanAutomate));
@@ -146,7 +146,7 @@ public:
         parameters.addParameter(new Parameter("Enabled", "", 0, 1, 1, ParameterFlags::kCanAutomate | ParameterFlags::kIsBypass));
     }
 
-    ~MatrixFilterEditController() override {
+    ~MatrixFlangerEditController() override {
         if (pluginView) {
             pluginView->forget();
         }
@@ -170,7 +170,7 @@ public:
         bgColor.green = 25;
         bgColor.blue = 51;  // Dark blue background
         
-        pluginView = new MatrixFilterGUI(viewRect, bgColor);
+        pluginView = new MatrixFlangerGUI(viewRect, bgColor);
         pluginView->remember();
         
         *view = this;
@@ -255,5 +255,5 @@ public:
     }
 
 private:
-    MatrixFilterGUI* pluginView;
+    MatrixFlangerGUI* pluginView;
 };

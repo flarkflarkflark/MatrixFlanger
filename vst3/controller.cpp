@@ -1,6 +1,6 @@
 /*
  * VST3 Parameter Controller
- * flark's MatrixFilter - VST3 Version
+ * flark's MatrixFlanger - VST3 Version
  */
 
 #include "public.sdk/source/vst/vsteditcontroller.h"
@@ -11,9 +11,9 @@
 using namespace Steinberg;
 using namespace Steinberg::Vst;
 
-class MatrixFilterController : public EditController {
+class MatrixFlangerController : public EditController {
 public:
-    MatrixFilterController() : EditController() {
+    MatrixFlangerController() : EditController() {
         // Component parameters
         parameters.addParameter(new Parameter("Cutoff Frequency", "Hz", 0, 20000, 1000, ParameterFlags::kCanAutomate));
         parameters.addParameter(new Parameter("Resonance", "", 0.1, 10.0, 1.0, ParameterFlags::kCanAutomate));
