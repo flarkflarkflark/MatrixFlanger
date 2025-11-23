@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # flark's MatrixFilter - Universal Build Script
-# Builds all plugin formats: CLAP, VST3, and LV2
+# Builds all plugin formats: VST3 and LV2
 
 set -e
 
 echo "🚀 Building Complete Plugin Suite: flark's MatrixFilter"
 echo "===================================================="
-echo "🎵 Formats: CLAP (modern), VST3 (standard), LV2 (Linux-focused)"
+echo "🎵 Formats: VST3 (standard), LV2 (Linux-focused)"
 echo "🖥️ Platforms: Linux, Windows, macOS"
 echo "🎨 Features: 7 audio filters + real-time matrix visualization"
 echo ""
@@ -35,16 +35,8 @@ has_pkg_config=$(check_dependency pkg-config)
 has_make=$(check_dependency make)
 
 # Format-specific checks
-has_clap=false
 has_vst3=false
 has_lv2=false
-
-if pkg-config --exists clap 2>/dev/null; then
-    echo "✅ CLAP SDK found"
-    has_clap=true
-else
-    echo "⚠️  CLAP SDK not found (install: libclap-dev or brew install clap)"
-fi
 
 if pkg-config --exists vst3sdk 2>/dev/null; then
     echo "✅ VST3 SDK found"
@@ -63,17 +55,14 @@ fi
 echo ""
 
 # Build options
-BUILD_CLAP=${BUILD_CLAP:-true}
 BUILD_VST3=${BUILD_VST3:-true}
 BUILD_LV2=${BUILD_LV2:-true}
 
 # Auto-disable formats that don't have SDKs
-if [ "$has_clap" = false ]; then BUILD_CLAP=false; fi
 if [ "$has_vst3" = false ]; then BUILD_VST3=false; fi
 if [ "$has_lv2" = false ]; then BUILD_LV2=false; fi
 
 echo "📋 Build Configuration:"
-echo "   CLAP:  $([ "$BUILD_CLAP" = true ] && echo "✅ YES" || echo "❌ NO")"
 echo "   VST3:  $([ "$BUILD_VST3" = true ] && echo "✅ YES" || echo "❌ NO")"
 echo "   LV2:   $([ "$BUILD_LV2" = true ] && echo "✅ YES" || echo "❌ NO")"
 echo ""
@@ -107,14 +96,6 @@ build_format() {
 success_count=0
 total_count=0
 
-if [ "$BUILD_CLAP" = true ]; then
-    total_count=$((total_count + 1))
-    if build_format "CLAP" "clap" "clap"; then
-        success_count=$((success_count + 1))
-    fi
-    echo ""
-fi
-
 if [ "$BUILD_VST3" = true ]; then
     total_count=$((total_count + 1))
     if build_format "VST3" "vst3" "vst3"; then
@@ -136,7 +117,7 @@ echo "📦 Creating unified installation package..."
 mkdir -p install/flark-matrixfilter-suite
 
 # Collect built plugins
-for format in clap vst3 lv2; do
+for format in vst3 lv2; do
     if [ -d "$format/install" ]; then
         echo "📁 Collecting $format plugins..."
         cp -r $format/install/* install/flark-matrixfilter-suite/ 2>/dev/null || true
@@ -149,12 +130,6 @@ cd install
 
 # Organize by platform and format
 mkdir -p flark-matrixfilter-suite/{linux,windows,macos,generic}
-
-# Copy CLAP plugins
-if [ -d "clap-audio-filter" ]; then
-    echo "📁 Packaging CLAP plugins..."
-    cp -r clap-audio-filter flark-matrixfilter-suite/generic/
-fi
 
 # Copy VST3 plugins
 if [ -d "vst3" ]; then
@@ -190,7 +165,6 @@ fi
 
 echo ""
 echo "📁 Installation Packages:"
-echo "   CLAP:  build/suite/install/flark-matrixfilter-suite/generic/clap-audio-filter/"
 echo "   VST3:  build/suite/install/flark-matrixfilter-suite/generic/vst3/"
 echo "   LV2:   build/suite/install/flark-matrixfilter-suite/generic/lv2/"
 echo ""
@@ -212,7 +186,7 @@ echo "🎵 flark's MatrixFilter Plugin Suite"
 echo "===================================="
 echo "✅ Professional audio filtering (7 filter types)"
 echo "✅ Real-time matrix visual effects (OpenGL)"
-echo "✅ Multi-format support (CLAP + VST3 + LV2)"
+echo "✅ Multi-format support (VST3 + LV2)"
 echo "✅ Cross-platform compatibility"
 echo "✅ Zero-latency audio processing"
 echo "✅ Professional DAW integration"
