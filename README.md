@@ -1,14 +1,13 @@
 # flark's MatrixFilter Plugin Suite
 
-## 🎵 Complete Multi-Format Audio Plugin Suite
+## 🎵 Multi-Format Audio Plugin Suite
 
-**flark's MatrixFilter** is a professional-grade audio filter plugin available in **three industry-standard formats** with stunning real-time matrix-style visual effects.
+**flark's MatrixFilter** is a professional-grade audio filter plugin available in **two industry-standard formats** with stunning real-time matrix-style visual effects.
 
 ### 🎯 **Available Formats**
 
 | Format | Description | Build Command |
 |--------|-------------|---------------|
-| **CLAP** | Modern, open-source plugin format | `./build-clap.sh` |
 | **VST3** | Industry standard plugin format | `./build-vst3.sh` |
 | **LV2** | Linux-focused, open-source format | `./build-lv2.sh` |
 
@@ -53,9 +52,9 @@ chmod +x build-macos.sh && ./build-macos.sh
 - **Matrix Aesthetic**: Classic green-on-black theme
 
 #### **Multi-Platform Support**
-- **Windows**: VST3, CLAP, LV2
-- **Linux**: All formats with native LV2 support  
-- **macOS**: All formats with native CLAP support
+- **Windows**: VST3, LV2
+- **Linux**: VST3, LV2 (native LV2 support)
+- **macOS**: VST3, LV2
 
 ### 🎮 **Plugin Controls**
 
@@ -68,12 +67,6 @@ chmod +x build-macos.sh && ./build-macos.sh
 | **Enabled** | On/Off | On | Enable/disable the filter |
 
 ### 🎵 **DAW Compatibility**
-
-#### **CLAP Format**
-- **Bitwig Studio** (native support) ⭐
-- **Reaper** (with CLAP plugin) ⭐
-- **Ardour** (full compatibility) ⭐
-- **LMMS** (CLAP support) ⭐
 
 #### **VST3 Format**  
 - **Cubase** (native support) ⭐
@@ -95,13 +88,11 @@ flark-matrixfilter/
 ├── 📄 FORMATS.md          # Format comparison guide
 ├── 📄 QUICKSTART.md       # 5-minute setup guide
 ├── 📄 build-all.sh        # Universal build script
-├── 📄 build-clap.sh       # CLAP build script
 ├── 📄 build-vst3.sh       # VST3 build script
 ├── 📄 build-lv2.sh        # LV2 build script
 ├── 📄 build-linux.sh      # Linux build script
 ├── 📄 build-windows.bat   # Windows build script
 ├── 📄 build-macos.sh      # macOS build script
-├── 📁 clap/              # CLAP format implementation
 ├── 📁 vst3/              # VST3 format implementation
 ├── 📁 lv2/               # LV2 format implementation
 ├── 📁 src/               # Shared DSP and GUI code
@@ -111,10 +102,9 @@ flark-matrixfilter/
 ### 🛠️ **System Requirements**
 
 #### **Build Requirements**
-- **CMake** 3.17+ 
+- **CMake** 3.17+
 - **C++17** compatible compiler
 - **Platform-specific SDKs**:
-  - CLAP SDK (libclap-dev)
   - VST3 SDK (Steinberg)
   - LV2 SDK (lv2-dev)
 
@@ -126,13 +116,7 @@ flark-matrixfilter/
 
 ### 📊 **Format Selection Guide**
 
-**Choose CLAP if you want:**
-- Modern, open-source technology
-- Excellent performance and low latency
-- Simple plugin development
-- Future-proof format
-
-**Choose VST3 if you want:**  
+**Choose VST3 if you want:**
 - Maximum DAW compatibility
 - Industry-standard format
 - Professional production environment
@@ -157,10 +141,7 @@ flark-matrixfilter/
 
 #### **Building Individual Formats**
 ```bash
-# CLAP format
-./build-clap.sh
-
-# VST3 format  
+# VST3 format
 ./build-vst3.sh
 
 # LV2 format
@@ -170,7 +151,7 @@ flark-matrixfilter/
 #### **Custom Builds**
 ```bash
 # Build specific formats only
-BUILD_CLAP=true BUILD_VST3=true ./build-all.sh
+BUILD_VST3=true BUILD_LV2=false ./build-all.sh
 
 # Platform optimization
 ./build-linux.sh   # Linux optimized
@@ -210,8 +191,7 @@ BUILD_CLAP=true BUILD_VST3=true ./build-all.sh
 - Hardware-accelerated OpenGL rendering
 - 60 FPS smooth animation
 
-✅ **Complete Format Coverage**
-- CLAP (modern, open-source)
+✅ **Multi-Format Support**
 - VST3 (industry standard)
 - LV2 (Linux-focused, open-source)
 - Cross-platform compatibility
@@ -230,7 +210,6 @@ This project is open source. See individual format directories for specific lice
 
 **Developed by flark**
 
-- **CLAP Format**: https://cleveraudio.org/ (MIT)
 - **VST3 SDK**: Steinberg (Proprietary)
 - **LV2 Standard**: http://lv2plug.in/ (ISC)
 - **Matrix Effects**: Inspired by "The Matrix" movie
@@ -252,4 +231,4 @@ Or jump to specific documentation:
 
 ---
 
-**Version**: 1.0.0 | **Formats**: CLAP, VST3, LV2 | **Platforms**: Windows, Linux, macOS | **Author**: flark
+**Version**: 1.0.0 | **Formats**: VST3, LV2 | **Platforms**: Windows, Linux, macOS | **Author**: flark

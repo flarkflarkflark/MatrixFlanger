@@ -5,9 +5,6 @@ project(flark-matrixfilter-vst3 VERSION 1.0.0 LANGUAGES C CXX)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(VST3 REQUIRED vst3sdk)
 
-# Find CLAP SDK for DSP algorithms
-pkg_check_modules(CLAP REQUIRED clap)
-
 add_library(flark-matrixfilter-vst3 MODULE)
 set_target_properties(flark-matrixfilter-vst3 PROPERTIES
     C_STANDARD 11
@@ -22,7 +19,6 @@ target_include_directories(flark-matrixfilter-vst3 PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/include
     ${VST3_INCLUDE_DIRS}
-    ${CLAP_INCLUDE_DIRS}
 )
 
 # Source files
@@ -43,7 +39,6 @@ target_sources(flark-matrixfilter-vst3 PRIVATE
 # Link libraries
 target_link_libraries(flark-matrixfilter-vst3 PRIVATE
     ${VST3_LIBRARIES}
-    ${CLAP_LIBRARIES}
     m
     pthread
 )
