@@ -1,65 +1,86 @@
 #!/bin/bash
 
-# flark's MatrixFilter - macOS Build Script
-# This script builds the plugin for macOS systems
+# flark's MatrixFlanger - macOS Build Script
+# Builds VST3 and LV2 plugins for macOS systems
 
 set -e
 
-echo "Building flark's MatrixFilter for macOS..."
+echo "🚀 Building flark's MatrixFlanger for macOS..."
+echo "==============================================="
+echo ""
 
-# Create build directory
-mkdir -p build/macos
-cd build/macos
-
-# Run CMake configuration
-cmake ../.. \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_C_COMPILER=clang \
-    -DCMAKE_CXX_COMPILER=clang++ \
-    -DCMAKE_INSTALL_PREFIX=./install
-
-echo "CMake configuration completed."
-
-# Build the plugin
-make -j$(sysctl -n hw.ncpu)
-
-echo "Plugin build completed successfully."
-
-# Create installation directory
-mkdir -p install/MatrixFilter
-
-# Copy plugin to installation directory (macOS uses .bundle extension)
-cp libclap-audio-filter.bundle install/MatrixFilter/flark-MatrixFilter.clap
-
-echo "Plugin copied to installation directory."
-
-# Install CLAP libraries if needed
-echo "Checking for CLAP library..."
-if ! pkg-config --exists clap; then
-    echo "CLAP library not found. Installing..."
-    # Try Homebrew first
-    if command -v brew >/dev/null 2>&1; then
-        brew install clap
-    else
-        echo "Homebrew not found. Please install CLAP manually."
-        echo "Visit: https://github.com/free-audio/clap"
-        echo "Or install via Homebrew: /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
-    fi
+# Check for required tools
+if ! command -v cmake &> /dev/null; then
+    echo "❌ CMake not found. Install with: brew install cmake"
+    exit 1
 fi
 
-echo "macOS build completed!"
-echo "Plugin location: build/macos/install/MatrixFilter/flark-MatrixFilter.clap"
+if ! command -v pkg-config &> /dev/null; then
+    echo "❌ pkg-config not found. Install with: brew install pkg-config"
+    exit 1
+fi
+
+# Check for SDKs
+echo "🔍 Checking for required SDKs..."
+has_vst3=false
+has_lv2=false
+
+if pkg-config --exists vst3sdk 2>/dev/null; then
+    echo "✅ VST3 SDK found"
+    has_vst3=true
+else
+    echo "⚠️  VST3 SDK not found"
+    echo "   Download from: https://www.steinberg.net/developers/"
+fi
+
+if pkg-config --exists lv2 2>/dev/null; then
+    echo "✅ LV2 SDK found"
+    has_lv2=true
+else
+    echo "⚠️  LV2 SDK not found"
+    echo "   Install with: brew install lv2"
+fi
+
+if [ "$has_vst3" = false ] && [ "$has_lv2" = false ]; then
+    echo ""
+    echo "❌ No SDKs found. Please install at least one SDK to build."
+    exit 1
+fi
+
 echo ""
-echo "To use this plugin:"
-echo "1. Copy flark-MatrixFilter.clap to your DAW's CLAP plugin directory"
-echo "2. Typical locations:"
-echo "   - ~/Library/Audio/Plug-Ins/CLAP/"
-echo "   - /Library/Audio/Plug-Ins/CLAP/ (system-wide)"
-echo "3. Rescan plugins in your DAW"
+
+# Build VST3
+if [ "$has_vst3" = true ]; then
+    echo "🏗️  Building VST3 plugin..."
+    mkdir -p build/vst3
+    cd build/vst3
+    cmake ../../vst3 -DCMAKE_BUILD_TYPE=Release
+    make -j$(sysctl -n hw.ncpu)
+    echo "✅ VST3 build completed"
+    cd ../..
+    echo ""
+fi
+
+# Build LV2
+if [ "$has_lv2" = true ]; then
+    echo "🏗️  Building LV2 plugin..."
+    mkdir -p build/lv2
+    cd build/lv2
+    cmake ../../lv2 -DCMAKE_BUILD_TYPE=Release
+    make -j$(sysctl -n hw.ncpu)
+    echo "✅ LV2 build completed"
+    cd ../..
+    echo ""
+fi
+
+echo "🎉 macOS build completed successfully!"
 echo ""
-echo "Note: macOS CLAP plugins use .bundle format internally but appear as .clap files"
+echo "📦 Installation:"
+if [ "$has_vst3" = true ]; then
+    echo "VST3: cp -r build/vst3/*.vst3 ~/Library/Audio/Plug-Ins/VST3/"
+fi
+if [ "$has_lv2" = true ]; then
+    echo "LV2:  cp -r build/lv2/*.lv2 ~/Library/Audio/Plug-Ins/LV2/"
+fi
 echo ""
-echo "Tested DAWs on macOS:"
-echo "- Bitwig Studio (native CLAP support)"
-echo "- Reaper (with CLAP plugin)"
-echo "- Ardour (full CLAP compatibility)"
+echo "🎵 flark's MatrixFlanger - Professional Audio Filtering"

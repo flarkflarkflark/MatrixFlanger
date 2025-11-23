@@ -1,58 +1,86 @@
 #!/bin/bash
 
-# flark's MatrixFilter - Linux Build Script
-# This script builds the plugin for Linux systems
+# flark's MatrixFlanger - Linux Build Script
+# Builds VST3 and LV2 plugins for Linux systems
 
 set -e
 
-echo "Building flark's MatrixFilter for Linux..."
+echo "🚀 Building flark's MatrixFlanger for Linux..."
+echo "================================================"
+echo ""
 
-# Create build directory
-mkdir -p build/linux
-cd build/linux
-
-# Run CMake configuration
-cmake ../.. \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_C_COMPILER=gcc \
-    -DCMAKE_CXX_COMPILER=g++ \
-    -DCMAKE_INSTALL_PREFIX=./install
-
-echo "CMake configuration completed."
-
-# Build the plugin
-make -j$(nproc)
-
-echo "Plugin build completed successfully."
-
-# Create installation directory
-mkdir -p install/MatrixFilter
-
-# Copy plugin to installation directory
-cp libMatrixFilter.so install/MatrixFilter/flark-MatrixFilter.clap
-
-echo "Plugin copied to installation directory."
-
-# Install CLAP libraries if needed
-echo "Checking for CLAP library..."
-if ! pkg-config --exists clap; then
-    echo "CLAP library not found. Installing..."
-    sudo apt-get update
-    sudo apt-get install libclap-dev
+# Check for required tools
+if ! command -v cmake &> /dev/null; then
+    echo "❌ CMake not found. Install with: sudo apt-get install cmake"
+    exit 1
 fi
 
-echo "Linux build completed!"
-echo "Plugin location: build/linux/install/MatrixFilter/flark-MatrixFilter.clap"
+if ! command -v pkg-config &> /dev/null; then
+    echo "❌ pkg-config not found. Install with: sudo apt-get install pkg-config"
+    exit 1
+fi
+
+# Check for SDKs
+echo "🔍 Checking for required SDKs..."
+has_vst3=false
+has_lv2=false
+
+if pkg-config --exists vst3sdk 2>/dev/null; then
+    echo "✅ VST3 SDK found"
+    has_vst3=true
+else
+    echo "⚠️  VST3 SDK not found"
+    echo "   Download from: https://www.steinberg.net/developers/"
+fi
+
+if pkg-config --exists lv2 2>/dev/null; then
+    echo "✅ LV2 SDK found"
+    has_lv2=true
+else
+    echo "⚠️  LV2 SDK not found"
+    echo "   Install with: sudo apt-get install lv2-dev"
+fi
+
+if [ "$has_vst3" = false ] && [ "$has_lv2" = false ]; then
+    echo ""
+    echo "❌ No SDKs found. Please install at least one SDK to build."
+    exit 1
+fi
+
 echo ""
-echo "To use this plugin:"
-echo "1. Copy flark-MatrixFilter.clap to your DAW's CLAP plugin directory"
-echo "2. Typical locations:"
-echo "   - ~/.clap/Plugins/"
-echo "   - /usr/local/lib/clap/"
-echo "   - /usr/lib/clap/"
+
+# Build VST3
+if [ "$has_vst3" = true ]; then
+    echo "🏗️  Building VST3 plugin..."
+    mkdir -p build/vst3
+    cd build/vst3
+    cmake ../../vst3 -DCMAKE_BUILD_TYPE=Release
+    make -j$(nproc)
+    echo "✅ VST3 build completed"
+    cd ../..
+    echo ""
+fi
+
+# Build LV2
+if [ "$has_lv2" = true ]; then
+    echo "🏗️  Building LV2 plugin..."
+    mkdir -p build/lv2
+    cd build/lv2
+    cmake ../../lv2 -DCMAKE_BUILD_TYPE=Release
+    make -j$(nproc)
+    echo "✅ LV2 build completed"
+    cd ../..
+    echo ""
+fi
+
+echo "🎉 Linux build completed successfully!"
 echo ""
-echo "Supported DAWs with CLAP support:"
-echo "- Bitwig Studio"
-echo "- Reaper (with CLAP plugin)"
-echo "- Ardour"
-echo "- LMMS"
+echo "📦 Installation:"
+if [ "$has_vst3" = true ]; then
+    echo "VST3: cp build/vst3/*.vst3 ~/.vst3/"
+fi
+if [ "$has_lv2" = true ]; then
+    echo "LV2:  cp -r build/lv2/*.lv2 ~/.lv2/"
+fi
+echo ""
+echo "🎵 flark's MatrixFlanger - Professional Audio Filtering"
